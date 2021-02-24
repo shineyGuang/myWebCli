@@ -3,7 +3,7 @@ package middlewares
 import (
 	"errors"
 	"myWebCli/controller/response"
-	"myWebCli/utils/jwt"
+	jwt "myWebCli/utils/Jwt"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -25,21 +25,21 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		// 这里的具体实现方式要依据你的实际业务情况决定
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
-			response.ResWithJson(c, response.AuthNilError, "请求头中auth为空")
+			response.ResErrorWithString(c, response.AuthNilError, "请求头中auth为空")
 			c.Abort()
 			return
 		}
 		// 按空格分割
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
-			response.ResWithJson(c, response.AuthValidateError, "请求头中auth格式有误")
+			response.ResErrorWithString(c, response.AuthValidateError, "请求头中auth格式有误")
 			c.Abort()
 			return
 		}
 		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
-			response.ResWithJson(c, response.AuthInvalidated, "无效的Token")
+			response.ResErrorWithString(c, response.AuthInvalidated, "无效的Token")
 			c.Abort()
 			return
 		}

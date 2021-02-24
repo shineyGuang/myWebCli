@@ -6,13 +6,13 @@ import (
 )
 
 type LoginForm struct {
-	UserId   int64  `json:"user_id" db:"user_id"`
-	UserName string `json:"userName" db:"username"`
-	Pwd      string `json:"pwd" db:"password"`
+	UserId   uint64 `json:"user_id" db:"user_id"`
+	UserName string `json:"userName" db:"username" binding:"required"`
+	Pwd      string `json:"pwd" db:"password" binding:"lte=8,gte=3"`
 }
 
 type RegisterForm struct {
-	UserId   int64  `json:"user_id" db:"user_id"`
+	UserId   uint64 `json:"user_id" db:"user_id"`
 	UserName string `json:"userName" db:"username"`
 	Pwd      string `json:"pwd" db:"password"`
 	RePwd    string `json:"re_pwd"`

@@ -8,7 +8,7 @@ import (
 
 type ResData struct {
 	Code ResCode     `json:"code"`
-	Msg  string      `json:"msg"`
+	Msg  interface{} `json:"msg"`
 	Data interface{} `json:"data"`
 }
 
@@ -21,7 +21,7 @@ func ResError(c *gin.Context, code ResCode) {
 	c.JSON(http.StatusOK, rd)
 }
 
-func ResErrorWithString(c *gin.Context, code ResCode, errMsg string) {
+func ResErrorWithString(c *gin.Context, code ResCode, errMsg interface{}) {
 	rd := &ResData{
 		Code: code,
 		Msg:  errMsg,
